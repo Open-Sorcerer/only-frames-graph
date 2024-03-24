@@ -1,0 +1,29 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: OnlyFrames
+    network: base-sepolia
+    source:
+      address: "0x3a0d973047624e06a78c3560cc120498406968d7"
+      abi: OnlyFrames
+      startBlock: 7759021
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - ProductCreated
+      abis:
+        - name: OnlyFrames
+          file: ./abis/OnlyFrames.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ProductCreated(indexed address,address)
+          handler: handleProductCreated
+      file: ./src/only-frames.ts
